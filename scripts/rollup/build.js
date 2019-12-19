@@ -330,6 +330,7 @@ function getPlugins(
 ) {
   const findAndRecordErrorCodes = extractErrorCodes(errorCodeOpts);
   const forks = Modules.getForks(bundleType, entry, moduleType);
+  console.log(forks);
   const isProduction = isProductionBundleType(bundleType);
   const isProfiling = isProfilingBundleType(bundleType);
   const isUMDBundle =
@@ -348,6 +349,14 @@ function getPlugins(
     bundleType === RN_FB_PROD ||
     bundleType === RN_FB_PROFILING;
   const shouldStayReadable = isFBBundle || isRNBundle || forcePrettyOutput;
+  const babelConfig = getBabelConfig(
+    updateBabelOptions,
+    bundleType,
+    packageName,
+    externals,
+    !isProduction
+  );
+  console.log(babelConfig.plugins);
   return [
     // Extract error codes from invariant() messages into a file.
     shouldExtractErrors && {
@@ -372,13 +381,7 @@ function getPlugins(
     }),
     // Compile to ES5.
     babel(
-      getBabelConfig(
-        updateBabelOptions,
-        bundleType,
-        packageName,
-        externals,
-        !isProduction
-      )
+      babelConfig
     ),
     // Remove 'use strict' from individual source files.
     {

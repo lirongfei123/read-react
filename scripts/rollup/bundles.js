@@ -56,8 +56,30 @@ const {
   RECONCILER,
   NON_FIBER_RENDERER,
 } = moduleTypes;
-
 const bundles = [
+  /******* Isomorphic *******/
+  {
+    bundleTypes: [
+      UMD_DEV,
+    ],
+    moduleType: ISOMORPHIC,
+    entry: 'react',
+    global: 'React',
+    externals: [],
+  },
+
+  /******* React DOM *******/
+  {
+    bundleTypes: [
+      UMD_DEV,
+    ],
+    moduleType: RENDERER,
+    entry: 'react-dom',
+    global: 'ReactDOM',
+    externals: ['react'],
+  }
+]
+const bundles_backup = [
   /******* Isomorphic *******/
   {
     bundleTypes: [

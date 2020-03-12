@@ -6,28 +6,26 @@ module.exports = {
     entry: {
         main: './src/index.js',
     },
+    context: path.resolve(__dirname, '../'),
     output: {
         path: path.join(__dirname, 'build'),
         filename: '[name].js'
     },
     resolve: {
         modules: [
+            path.join(__dirname, '../react-master/packages'),
             'node_modules',
-            path.join(__dirname, '../packages')
         ]
     },
     module: {
         rules: [
             {
+                test: /\.js$/,
                 loader: "babel-loader",
-                include: [
-                    path.join(__dirname, '../packages'),
-                    path.join(__dirname, './src'),
-                ],
-                
+                include: /(?:react-master\/packages)|src/,
                 options: {
                     babelrc: false,
-                    exclude: '/**/node_modules/**',
+                    exclude: /node_modules/,
                     presets: [
                         [
                             "@babel/preset-env",
@@ -52,12 +50,12 @@ module.exports = {
                     ],
                     plugins: [
                         [
-                            require('../scripts/babel/transform-replace-console-calls'),
+                            require('../react-master/scripts/babel/transform-replace-console-calls'),
                             {
                                 shouldError: false,
                             },
                         ],
-                        require('../scripts/error-codes/transform-error-messages'),
+                        require('../react-master/scripts/error-codes/transform-error-messages'),
                         '@babel/plugin-proposal-class-properties',
                         '@babel/plugin-proposal-object-rest-spread'
                     ]

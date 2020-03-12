@@ -5,12 +5,12 @@
 "use strict";
 
 const path = require("path");
+// module.paths.unshift(path.join(__dirname, '../react-master/node_modules'));
 const obj = {
 	'shared/ReactSharedInternals': 'react/src/ReactSharedInternals',
     'scheduler/src/SchedulerFeatureFlags': 'scheduler/src/SchedulerFeatureFlags',
     'scheduler/src/SchedulerHostConfig': 'scheduler/src/forks/SchedulerHostConfig.default',
     // 'react/src/ReactSharedInternals.js': 'react/src/forks/ReactSharedInternals.umd.js',
-
     // 'object-assign': 'shared/forks/object-assign.umd.js',
     // "scheduler": 'shared/forks/Scheduler.umd.js',
     // 'scheduler/tracing': 'shared/forks/SchedulerTracing.umd.js',
@@ -30,7 +30,6 @@ class ReactRuntimeReplace {
             this.moduleMap.set(require.resolve(srcModule), require.resolve(obj[srcModule]));
         });
 	}
-
 	apply(compiler) {
 		compiler.hooks.normalModuleFactory.tap(
 			"react-runtime-replace",
